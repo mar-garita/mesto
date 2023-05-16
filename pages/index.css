@@ -14,6 +14,22 @@
     text-rendering: optimizeLegibility;
 }
 
+/*768px - 1023px*/
+
+@media screen and (max-width: 1023px) {
+    .page__section {
+        max-width: 768px;
+    }
+}
+
+/* - 767px*/
+
+@media screen and (max-width: 767px) {
+    .page__section {
+        max-width: 320px;
+    }
+}
+
 .page__section {
     width: 100%;
     max-width: 880px;
@@ -144,7 +160,7 @@
 }
 
 .card__info {
-    /*min-height: 79px;*/
+    min-height: 79px;
     display: flex;
     justify-content: space-between;
     align-items: baseline;

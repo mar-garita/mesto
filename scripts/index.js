@@ -35,8 +35,7 @@ function closePopup(popupEl) {
     popupEl.classList.remove('popup_is-opened');
 }
 
-// Метод, который выводит в консоли широкий элемент, чтобы отдебажить скролл горизонтальный
-// Не по требованиям, но он мне нужен
+// Метод выводит в консоли широкий элемент, чтобы отдебажить скролл горизонтальный
 
 // function searchWidthElement(pageWidth) {
 //     let allEl = document.querySelectorAll('*');

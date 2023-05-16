@@ -5,6 +5,9 @@
 /*---------------- page --------------------*/
 
 .page {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: min-content;
     background-color: #000000;
     color: #FFFFFF;
     font-family: 'Inter', 'Arial', serif;
@@ -12,6 +15,7 @@
 }
 
 .page__section {
+    width: 100%;
     max-width: 880px;
     margin: 0 auto;
 }
@@ -182,6 +186,7 @@
 
 .footer {
     min-height: 78px;
+    align-self: end;
 }
 
 .footer__copyright {

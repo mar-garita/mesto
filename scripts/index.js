@@ -48,4 +48,4 @@ function closePopup(popupEl) {
 //     }
 // }
 //
-// searchWidthElement(1280);
+// searchWidthElement(880);

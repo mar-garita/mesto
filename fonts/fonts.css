@@ -1,4 +1,3 @@
-/*Есть*/
 @font-face {
     font-family: 'Inter';
     font-style:  normal;
@@ -8,7 +7,6 @@
     url("Inter-Regular.woff?v=3.19") format("woff");
 }
 
-/*Есть*/
 @font-face {
     font-family: 'Inter';
     font-style: normal;
@@ -18,16 +16,6 @@
     url("Inter-Medium.woff?v=3.19") format("woff");
 }
 
-@font-face {
-    font-family: 'Inter';
-    font-style:  normal;
-    font-weight: 700;
-    font-display: swap;
-    src: url("Inter-Bold.woff2?v=3.19") format("woff2"),
-    url("Inter-Bold.woff?v=3.19") format("woff");
-}
-
-/*Есть*/
 @font-face {
     font-family: 'Inter';
     font-style:  normal;

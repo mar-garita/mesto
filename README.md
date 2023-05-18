@@ -1,17 +1,37 @@
 # Проект: Место
 
-### Обзор
+Данный учебный проект создан в рамках прохождения курса "Веб-разработчик" от Яндекс.Практикум
 
-* Figma
-* Картинки
+[Проект можно посмотреть тут](https://mar-garita.github.io/mesto/)
 
-**Figma**
+**Описание проекта**
 
-* [Ссылка на макет в Figma](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)
+Место - это интерактивная страница, на которой пользователи смогут делиться фотографиями, удалять их и ставить лайки.
 
-**Картинки**
+**Используемые технологии**
 
-Доставать картинки предстоит из Фигмы. Это расхожая практика, поэтому полезно потренироваться.
-Не забудьте [оптимизировать картинки](https://tinypng.com/), чтобы ваш сайт загружался быстрее.
+* HTML5
+* CSS3:
+    + Flexbox
+    + Grid Layout
+    + Positioning
+    + Adaptive UI
+    + Media Queries
+* JavaScript:
+    + DOM
+* GIT
+* Методология БЭМ
+* Файловая структура Nested БЭМ
 
-Удачи!
+**Макет**
+
+* [Ссылка на макет в Figma](https://www.figma.com/file/5S2WSbEFL6awjVWJ0NWL8Q/Sprint-3_-Russia-_-desktop-mobile?node-id=28503%3A0)
+
+
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)
+![Github Pages](https://img.shields.io/badge/github%20pages-121013?style=for-the-badge&logo=github&logoColor=white)
+![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
+

@@ -6,7 +6,11 @@
 
 **Описание проекта**
 
-Место - это интерактивная страница, на которой пользователи смогут делиться фотографиями, удалять их и ставить лайки.
+Место - это интерактивная страница, на которой пользователи могут делиться фотографиями, удалять их и ставить лайки.
+
+_Готовность проекта:_
+* готова верстка
+* реализовано редактирование информации о пользователе
 
 **Используемые технологии**
 
@@ -34,4 +38,3 @@
 ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)
 ![Github Pages](https://img.shields.io/badge/github%20pages-121013?style=for-the-badge&logo=github&logoColor=white)
 ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
-

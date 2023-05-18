@@ -34,18 +34,3 @@ function openPopup(popupEl) {
 function closePopup(popupEl) {
     popupEl.classList.remove('popup_is-opened');
 }
-
-// Метод выводит в консоли широкий элемент, чтобы отдебажить скролл горизонтальный
-
-// function searchWidthElement(pageWidth) {
-//     let allEl = document.querySelectorAll('*');
-//
-//     for (let i = 0; i < allEl.length; i ++) {
-//         if (allEl[i].offsetWidth > pageWidth) {
-//             console.log(`WARNING: элемент очень широкий - ${allEl[i].offsetWidth}px`);
-//             console.log(allEl[i]);
-//         }
-//     }
-// }
-//
-// searchWidthElement(880);

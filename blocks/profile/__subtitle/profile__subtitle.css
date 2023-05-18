@@ -4,6 +4,9 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
 }
 
 /* - 767px*/
@@ -12,8 +15,5 @@
     .profile__subtitle {
         max-width: 357px;
         text-align: center;
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 17px;
     }
 }

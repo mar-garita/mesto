@@ -14,15 +14,15 @@
         </header>
         <main class="main page__section">
             <section class="profile">
-                <img src="images/avatar.jpg" alt="Аватар" class="avatar profile__avatar">
+                <img src="images/avatar.jpg" alt="Аватар" class="profile__avatar">
                 <div class="profile__info">
                     <div class="profile__container">
                         <h1 class="profile__title">Жак-Ив Кусто</h1>
-                        <div id="open-popup-button" class="button profile__edit-button"></div>
+                        <button type="button" id="open-popup-button" class="button profile__edit-button"></button>
                     </div>
                     <p class="profile__subtitle">Исследователь океана</p>
                 </div>
-                <div class="button profile__add-button"></div>
+                <button type="button" class="button profile__add-button"></button>
             </section>
             <section class="cards">
                 <ul class="cards__list">
@@ -30,42 +30,42 @@
                         <img src="images/karachayevsk.jpg" alt="Карачаевск" class="cards__image">
                         <div class="cards__info">
                             <h2 class="cards__title">Карачаевск</h2>
-                            <button class="cards__btn-like"></button>
+                            <button type="button" class="cards__btn-like"></button>
                         </div>
                     </li>
                     <li class="cards__item">
                         <img src="images/elbrus.jpg" alt="Гора Эльбрус" class="cards__image">
                         <div class="cards__info">
                             <h2 class="cards__title">Гора Эльбрус</h2>
-                            <button class="cards__btn-like"></button>
+                            <button type="button" class="cards__btn-like"></button>
                         </div>
                     </li>
                     <li class="cards__item">
                         <img src="images/dombay.jpg" alt="Домбай" class="cards__image">
                         <div class="cards__info">
                             <h2 class="cards__title">Домбай</h2>
-                            <button class="cards__btn-like"></button>
+                            <button type="button" class="cards__btn-like"></button>
                         </div>
                     </li>
                     <li class="cards__item">
                         <img src="images/dombay.jpg" alt="Домбай" class="cards__image">
                         <div class="cards__info">
                             <h2 class="cards__title">Домбай</h2>
-                            <button class="cards__btn-like"></button>
+                            <button type="button" class="cards__btn-like"></button>
                         </div>
                     </li>
                     <li class="cards__item">
                         <img src="images/elbrus.jpg" alt="Гора Эльбрус" class="cards__image">
                         <div class="cards__info">
                             <h2 class="cards__title">Гора Эльбрус</h2>
-                            <button class="cards__btn-like"></button>
+                            <button type="button" class="cards__btn-like"></button>
                         </div>
                     </li>
                     <li class="cards__item">
                         <img src="images/karachayevsk.jpg" alt="Карачаево-Черкесия" class="cards__image">
                         <div class="cards__info">
                             <h2 class="cards__title">Карачаево-Черкесия</h2>
-                            <button class="cards__btn-like"></button>
+                            <button type="button" class="cards__btn-like"></button>
                         </div>
                     </li>
                 </ul>
@@ -76,14 +76,14 @@
         </footer>
     </div>
     <div id="edit-popup" class="popup">
-        <div class="popup__content">
-            <form id="edit-form" class="popup__form">
+        <div class="popup__container">
+            <form name="edit-form" id="edit-form" class="popup__form">
                 <h2 class="popup__title">Редактировать профиль</h2>
-                <input type="text" name="name" required id="name-input" class="popup__input"/>
-                <input type="text" name="info" required id="info-input" class="popup__input" />
+                <input type="text" name="name" required id="name-input" class="popup__input" placeholder="Введите имя">
+                <input type="text" name="job" required id="job-input" class="popup__input" placeholder="Введите информацию">
                 <button type="submit" class="button popup__save-button">Сохранить</button>
             </form>
-            <button id="close-popup-button" class="button popup__close-button"></button>
+            <button type="button" id="close-popup-button" class="button popup__close-button"></button>
         </div>
     </div>
 </body>

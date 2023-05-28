@@ -1,90 +1,64 @@
-const initialCards = [
-    {
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
-
-
 // Профиль пользователя
-const profileTitleEl = document.querySelector('.profile__title');
-const profileSubtitleEl = document.querySelector('.profile__subtitle');
+const titleProfileEl = document.querySelector('.profile__title');
+const subtitleProfileEl = document.querySelector('.profile__subtitle');
+const buttonOpenEditPopupEl = document.querySelector('#profile-edit-button');
+const buttonOpenAddPopupEl = document.querySelector('#add-card-button');
 
 // Попап редактирования профиля пользователя
-const openPopupButtonEl = document.querySelector('#profile-edit-button'); // Кнопка открытия попапа
-const editPopupEl = document.querySelector('#edit-popup'); // Попап редактирования профиля
-const editFormEl = document.querySelector('#edit-form'); // Форма редактирования профиля
-const nameInputEl = document.querySelector('#name-input'); // Поле ввода имени
-const jobInputEl = document.querySelector('#job-input'); // Поле ввода должности
-const closePopupButtonEl = document.querySelector('#close-popup-button'); // Кнопка закрытия попапа редактирования
+const popupEditProfileEl = document.querySelector('#edit-popup');
+const formEditProfileEl = document.querySelector('#edit-form');
+const inputNameEl = document.querySelector('#name-input');
+const inputJobEl = document.querySelector('#job-input');
+const buttonCloseEditPopupEl = document.querySelector('#close-popup-button');
 
 // Попап добавления карточки
-const openAddPopupButtonEl = document.querySelector('#add-card-button'); // Кнопка открытия попапа добавления карточки
-const addPopupEl = document.querySelector('#add-card-popup'); // Попап добавления карточки
-const addCardFormEl = document.querySelector('#add-card-form'); // Форма добавления карточки
-const closeAddPopupButtonEl = document.querySelector('#close-add-popup-button'); // Кнопка закрытия попапа
+const popupAddCardEl = document.querySelector('#add-card-popup');
+const formAddCardEl = document.querySelector('#add-card-form');
+const buttonCloseAddPopupEl = document.querySelector('#close-add-popup-button');
 
 // Попап с картинкой
 const popupImageEl = document.querySelector('#view-image-popup');
-const closePopupImg = document.querySelector('#close-popup-img');
+const linkPopupImageEl = popupImageEl.querySelector('.popup-img__image');
+const captionPopupImageEl = popupImageEl.querySelector('.popup-img__caption');
+const buttonClosePopupImageEl = document.querySelector('#close-popup-img');
 
 // Шаблон карточки
-const cardsTemplate = document.querySelector('#cards-list-template');
-const cardsTemplateContent = cardsTemplate.content;
-const cardsListItemEl = cardsTemplateContent.querySelector('#cards-item');
+const templateCards = document.querySelector('#cards-list-template');
+const templateCardsContent = templateCards.content;
+const itemCardsListEl = templateCardsContent.querySelector('#cards-item');
 
 // Контейнер для добавления карточек (ul)
 const cardsListItemsEl = document.querySelector('#cards-list');
 
 
 // Открывает попап редактирования профиля
-openPopupButtonEl.addEventListener('click', function () {
-    openPopup(editPopupEl);
+buttonOpenEditPopupEl.addEventListener('click', function () {
+    openPopup(popupEditProfileEl);
 
-    nameInputEl.value = profileTitleEl.textContent;
-    jobInputEl.value = profileSubtitleEl.textContent;
+    inputNameEl.value = titleProfileEl.textContent;
+    inputJobEl.value = subtitleProfileEl.textContent;
 });
 
 // Закрывает попап редактирования профиля
-closePopupButtonEl.addEventListener('click', function () {
-    closePopup(editPopupEl);
+buttonCloseEditPopupEl.addEventListener('click', function () {
+    closePopup(popupEditProfileEl);
 });
 
 // Сохраняет измененные данные пользователя
-editFormEl.addEventListener('submit', handleFormSubmit);
+formEditProfileEl.addEventListener('submit', submitFormEditProfile);
 
 // Открывает попап добавления карточки
-openAddPopupButtonEl.addEventListener('click', function () {
-    openPopup(addPopupEl);
+buttonOpenAddPopupEl.addEventListener('click', function () {
+    openPopup(popupAddCardEl);
 });
 
 // Закрывает попап добавления карточки
-closeAddPopupButtonEl.addEventListener('click', function () {
-    closePopup(addPopupEl);
+buttonCloseAddPopupEl.addEventListener('click', function () {
+    closePopup(popupAddCardEl);
 });
 
 // Закрывает попап с картинкой
-closePopupImg.addEventListener('click', function () {
+buttonClosePopupImageEl.addEventListener('click', function () {
     closePopup(popupImageEl);
 })
 
@@ -92,18 +66,18 @@ closePopupImg.addEventListener('click', function () {
 // Обработчик «отправки» формы, срабатывает при нажатии на "Сохранить"
 // Получает значение полей jobInput и nameInput из свойства value и
 // записывает их в профиль пользователя
-function handleFormSubmit (event) {
+function submitFormEditProfile (event) {
     event.preventDefault(); // Отмена стандартной отправки формы
 
-    profileTitleEl.textContent = nameInputEl.value;
-    profileSubtitleEl.textContent = jobInputEl.value;
+    titleProfileEl.textContent = inputNameEl.value;
+    subtitleProfileEl.textContent = inputJobEl.value;
 
-    closePopup(editPopupEl);
+    closePopup(popupEditProfileEl);
 }
 
 // Слушатель кнопки "Создать" в попапе добавления карточки,
 // отправляет форму
-addCardFormEl.addEventListener('submit', function (event) {
+formAddCardEl.addEventListener('submit', function (event) {
     event.preventDefault();
 
     // Получает данные инпутов
@@ -119,7 +93,7 @@ addCardFormEl.addEventListener('submit', function (event) {
     cardsListItemsEl.prepend(newCard);
 
     form.reset(); // очищает поля ввода
-    closePopup(addPopupEl);
+    closePopup(popupAddCardEl);
 });
 
 // Функция проходит по массиву initialCards и для каждого объекта создает
@@ -132,25 +106,26 @@ initialCards.forEach(function (item) {
 function createCard (title, link) {
     // Клонирует элемент для новой карточки
     // (true - глубокое клонирование со всеми элементами)
-    const newCard = cardsListItemEl.cloneNode(true);
+    const newCard = itemCardsListEl.cloneNode(true);
 
     // задает значения элементам новой карточки
     const titleImageEl = newCard.querySelector('#cards-title');
     titleImageEl.textContent = title;
+
     const linkImageEl = newCard.querySelector('#cards-image');
     linkImageEl.src = link;
     linkImageEl.alt = title;
 
 
     // Кнопка удаления
-    const deleteButton = newCard.querySelector('.cards__btn-delete');
-    deleteButton.addEventListener('click', function () {
+    const buttonDeleteCardEl = newCard.querySelector('.cards__btn-delete');
+    buttonDeleteCardEl.addEventListener('click', function () {
         cardsListItemsEl.removeChild(newCard);
     });
 
     // Кнопка like
-    const likeCardButtonEl = newCard.querySelector('.cards__btn-like');
-    likeCardButtonEl.addEventListener('click', function (evt) {
+    const buttonLikeCardEl = newCard.querySelector('.cards__btn-like');
+    buttonLikeCardEl.addEventListener('click', function (evt) {
         evt.target.classList.toggle('cards__btn-like_active');
     })
 
@@ -159,12 +134,10 @@ function createCard (title, link) {
     imageCardEl.addEventListener('click', function () {
         openPopup(popupImageEl);
 
-        const linkPopupImageEl = popupImageEl.querySelector('.popup-img__image');
         linkPopupImageEl.src = link;
         linkPopupImageEl.alt = title;
 
-        const popupImgCaption = popupImageEl.querySelector('.popup-img__caption');
-        popupImgCaption.textContent = title;
+        captionPopupImageEl.textContent = title;
     })
 
     return newCard;

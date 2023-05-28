@@ -40,27 +40,19 @@ buttonOpenEditPopup.addEventListener('click', function () {
 });
 
 // Закрывает попап редактирования профиля
-buttonCloseEditPopup.addEventListener('click', function () {
-    closePopup(popupEditProfile);
-});
+buttonCloseEditPopup.addEventListener('click', () => closePopup(popupEditProfile));
 
 // Сохраняет измененные данные пользователя
 formEditProfile.addEventListener('submit', submitFormEditProfile);
 
 // Открывает попап добавления карточки
-buttonOpenAddPopup.addEventListener('click', function () {
-    openPopup(popupAddCard);
-});
+buttonOpenAddPopup.addEventListener('click', () => openPopup(popupAddCard));
 
 // Закрывает попап добавления карточки
-buttonCloseAddPopup.addEventListener('click', function () {
-    closePopup(popupAddCard);
-});
+buttonCloseAddPopup.addEventListener('click', () => closePopup(popupAddCard));
 
 // Закрывает попап с картинкой
-buttonClosePopupImage.addEventListener('click', function () {
-    closePopup(popupImage);
-})
+buttonClosePopupImage.addEventListener('click', () => closePopup(popupImage));
 
 
 // Обработчик «отправки» формы, срабатывает при нажатии на "Сохранить"

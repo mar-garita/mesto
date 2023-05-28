@@ -18,56 +18,15 @@
                 <div class="profile__info">
                     <div class="profile__container">
                         <h1 class="profile__title">Жак-Ив Кусто</h1>
-                        <button type="button" aria-label="Редактировать" id="open-popup-button" class="button profile__edit-button"></button>
+                        <button type="button" aria-label="Редактировать" id="profile-edit-button" class="button profile__edit-button"></button>
                     </div>
                     <p class="profile__subtitle">Исследователь океана</p>
                 </div>
-                <button type="button" aria-label="Добавить" class="button profile__add-button"></button>
+                <button type="button" aria-label="Добавить" id="add-card-button" class="button profile__add-button"></button>
             </section>
             <section class="cards">
-                <ul class="cards__list">
-                    <li class="cards__item">
-                        <img src="images/karachayevsk.jpg" alt="Карачаевск" class="cards__image">
-                        <div class="cards__info">
-                            <h2 class="cards__title">Карачаевск</h2>
-                            <button type="button" aria-label="Нравится" class="cards__btn-like"></button>
-                        </div>
-                    </li>
-                    <li class="cards__item">
-                        <img src="images/elbrus.jpg" alt="Гора Эльбрус" class="cards__image">
-                        <div class="cards__info">
-                            <h2 class="cards__title">Гора Эльбрус</h2>
-                            <button type="button" aria-label="Нравится" class="cards__btn-like"></button>
-                        </div>
-                    </li>
-                    <li class="cards__item">
-                        <img src="images/dombay.jpg" alt="Домбай" class="cards__image">
-                        <div class="cards__info">
-                            <h2 class="cards__title">Домбай</h2>
-                            <button type="button" aria-label="Нравится" class="cards__btn-like"></button>
-                        </div>
-                    </li>
-                    <li class="cards__item">
-                        <img src="images/dombay.jpg" alt="Домбай" class="cards__image">
-                        <div class="cards__info">
-                            <h2 class="cards__title">Домбай</h2>
-                            <button type="button" aria-label="Нравится" class="cards__btn-like"></button>
-                        </div>
-                    </li>
-                    <li class="cards__item">
-                        <img src="images/elbrus.jpg" alt="Гора Эльбрус" class="cards__image">
-                        <div class="cards__info">
-                            <h2 class="cards__title">Гора Эльбрус</h2>
-                            <button type="button" aria-label="Нравится" class="cards__btn-like"></button>
-                        </div>
-                    </li>
-                    <li class="cards__item">
-                        <img src="images/karachayevsk.jpg" alt="Карачаево-Черкесия" class="cards__image">
-                        <div class="cards__info">
-                            <h2 class="cards__title">Карачаево-Черкесия</h2>
-                            <button type="button" aria-label="Нравится" class="cards__btn-like"></button>
-                        </div>
-                    </li>
+                <ul id="cards-list" class="cards__list">
+
                 </ul>
             </section>
         </main>
@@ -86,5 +45,36 @@
             <button type="button" aria-label="Закрыть" id="close-popup-button" class="button popup__close-button"></button>
         </div>
     </div>
+    <div id="add-card-popup" class="popup">
+        <div class="popup__container">
+            <form name="add-card-form" id="add-card-form" class="popup__form">
+                <h2 class="popup__title">Новое место</h2>
+                <input type="text" name="title" required id="card-title-input" class="popup__input" placeholder="Название">
+                <input type="text" name="link-image" required id="link-image-input" class="popup__input" placeholder="Ссылка на картинку">
+                <button type="submit" aria-label="Сохранить" class="button popup__save-button">Создать</button>
+            </form>
+            <button type="button" aria-label="Закрыть" id="close-add-popup-button" class="button popup__close-button"></button>
+        </div>
+    </div>
+    <div id="view-image-popup" class="popup popup-img">
+        <div class="popup-img__container">
+            <figure class="popup-img__wrap">
+                <img src="" alt="" class="popup-img__image">
+                <figcaption class="popup-img__caption"></figcaption>
+            </figure>
+            <button type="button" aria-label="Закрыть" id="close-popup-img" class="button popup__close-button"></button>
+        </div>
+    </div>
+
+    <template id="cards-list-template">
+        <li id="cards-item" class="cards__item">
+            <button type="button" aria-label="Удалить карточку" class="button cards__btn-delete"></button>
+            <img src="" alt="" id="cards-image" class="cards__image">
+            <div class="cards__info">
+                <h2 id="cards-title" class="cards__title"></h2>
+                <button type="button" aria-label="Нравится" id="cards-link" class="cards__btn-like"></button>
+            </div>
+        </li>
+    </template>
 </body>
 </html>

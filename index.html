@@ -6,7 +6,9 @@
     <title>Mesto</title>
     <link rel="stylesheet" href="pages/index.css">
     <script src="scripts/constants.js"></script>
+    <script src="scripts/validate.js" defer></script>
     <script src="scripts/index.js" defer></script>
+<!--    <script src="scripts/validate.js" defer></script>-->
 </head>
 <body>
     <div class="page">
@@ -37,10 +39,10 @@
     </div>
     <div id="edit-popup" class="popup">
         <div class="popup__container">
-            <form name="edit-form" id="edit-form" class="popup__form">
+            <form name="edit-form" id="edit-form" class="popup__form" novalidate>
                 <h2 class="popup__title">Редактировать профиль</h2>
                 <input type="text" name="name" required id="name-input" class="popup__input" placeholder="Введите имя">
-                <input type="text" name="job" required id="job-input" class="popup__input" placeholder="Введите информацию">
+                <input type="text" name="about" required id="about-input" class="popup__input" placeholder="Введите информацию">
                 <button type="submit" aria-label="Сохранить" class="button popup__save-button">Сохранить</button>
             </form>
             <button type="button" aria-label="Закрыть" id="close-popup-button" class="button popup__close-button"></button>
@@ -48,11 +50,11 @@
     </div>
     <div id="add-card-popup" class="popup">
         <div class="popup__container">
-            <form name="add-card-form" id="add-card-form" class="popup__form">
+            <form name="add-card-form" id="add-card-form" class="popup__form" novalidate>
                 <h2 class="popup__title">Новое место</h2>
                 <input type="text" name="title" required id="card-title-input" class="popup__input" placeholder="Название">
-                <input type="text" name="link-image" required id="link-image-input" class="popup__input" placeholder="Ссылка на картинку">
-                <button type="submit" aria-label="Сохранить" class="button popup__save-button">Создать</button>
+                <input type="text" name="link" required id="link-image-input" class="popup__input" placeholder="Ссылка на картинку">
+                <button type="submit" aria-label="Сохранить" id="button-add-card" class="button popup__save-button">Создать</button>
             </form>
             <button type="button" aria-label="Закрыть" id="close-add-popup-button" class="button popup__close-button"></button>
         </div>

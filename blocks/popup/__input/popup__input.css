@@ -13,14 +13,14 @@
     color: #000000;
 }
 
-.popup__input:last-of-type{
-    margin-bottom: 48px;
-}
+/*.popup__input:last-of-type{*/
+/*    margin-bottom: 48px;*/
+/*}*/
 
-/* - 767px*/
+/*!* - 767px*!*/
 
-@media screen and (max-width: 767px) {
-    .popup__input:last-of-type {
-        margin-bottom: 45px;
-    }
-}
+/*@media screen and (max-width: 767px) {*/
+/*    .popup__input:last-of-type {*/
+/*        margin-bottom: 45px;*/
+/*    }*/
+/*}*/

@@ -14,6 +14,7 @@ const buttonCloseEditPopup = document.querySelector('#close-popup-button');
 
 // Попап добавления карточки
 const popupAddCard = document.querySelector('#add-card-popup');
+const formAddCard = document.querySelector('#add-card-form')
 const buttonCloseAddPopup = document.querySelector('#close-add-popup-button');
 
 // Попап с картинкой
@@ -65,7 +66,11 @@ closeButtons.forEach((button) => {
 // buttonCloseEditPopup.addEventListener('click', () => closePopup(popupEditProfile));
 
 // Открывает попап добавления карточки
-buttonOpenAddPopup.addEventListener('click', () => openPopup(popupAddCard));
+buttonOpenAddPopup.addEventListener('click', () => {
+    openPopup(popupAddCard);
+    formAddCard.reset();
+    // popupAddCard.form.reset();
+});
 
 // Закрывает попап добавления карточки
 // buttonCloseAddPopup.addEventListener('click', () => closePopup(popupAddCard));
@@ -141,7 +146,6 @@ function createCard(title, link) {
         captionPopupImage.textContent = title;
     });
 
-
     return newCard;
 }
 
@@ -176,6 +180,7 @@ function closePopupByOverlay(event) {
 
 // Удаляет стили и элементы ошибок в попапе
 function removeErrorElements(popup) {
+    console.log(`removeErrorElements`);
     const errors = popup.querySelectorAll('.popup__error');
     errors.forEach((error) => {
         error.parentNode.removeChild(error);
@@ -189,9 +194,9 @@ function removeErrorElements(popup) {
 }
 
 // Очищает поля формы
-function resetForm(popup) {
-    const form = popup.querySelector('.popup__form');
-    if (form) {
-        form.reset();
-    }
-}
+// function resetForm(popup) {
+//     const form = popup.querySelector('.popup__form');
+//     if (form) {
+//         form.reset();
+//     }
+// }

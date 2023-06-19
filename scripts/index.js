@@ -30,6 +30,8 @@ const itemCardsList = templateCardsContent.querySelector('#cards-item');
 // Контейнер для добавления карточек (ul)
 const cardsListItems = document.querySelector('#cards-list');
 
+// Универсальные элементы
+const closeButtons = document.querySelectorAll('.popup__close-button'); // список всех крестиков в попапах
 
 // Проходит по массиву initialCards и для каждого объекта создает
 // на странице карточку, добавляя ее в начало списка карточек
@@ -51,17 +53,25 @@ buttonOpenEditPopup.addEventListener('click', function () {
     inputAbout.value = subtitleProfile.textContent;
 });
 
+// Устанавливает обработчик закрытия на все кнопки-крестики в попапах
+closeButtons.forEach((button) => {
+    // closest() возвращает ближайший родительский элемент (или сам элемент),
+    // который соответствует заданному CSS-селектору
+    const popup = button.closest('.popup');
+    button.addEventListener('click', () => closePopup(popup));
+});
+
 // Закрывает попап редактирования профиля
-buttonCloseEditPopup.addEventListener('click', () => closePopup(popupEditProfile));
+// buttonCloseEditPopup.addEventListener('click', () => closePopup(popupEditProfile));
 
 // Открывает попап добавления карточки
 buttonOpenAddPopup.addEventListener('click', () => openPopup(popupAddCard));
 
 // Закрывает попап добавления карточки
-buttonCloseAddPopup.addEventListener('click', () => closePopup(popupAddCard));
+// buttonCloseAddPopup.addEventListener('click', () => closePopup(popupAddCard));
 
 // Закрывает попап с картинкой
-buttonClosePopupImage.addEventListener('click', () => closePopup(popupImage));
+// buttonClosePopupImage.addEventListener('click', () => closePopup(popupImage));
 
 
 // Обработчик формы редактирования профиля
@@ -74,7 +84,7 @@ function submitFormEditProfile() {
 }
 
 // Обработчик формы добавления карточки
-function submitFormAddCard(values) {
+function submitFormAddCard(values, form) {
     const title = values['title'];
     const link = values['link'];
 
@@ -82,14 +92,14 @@ function submitFormAddCard(values) {
     const newCard = createCard(title, link);
     cardsListItems.prepend(newCard);
 
-    // form.reset();
+    form.reset();
     closePopup(popupAddCard);
 }
 
 // Отправляет форму, вызывается в валидаторе
 function submitForm(form, values) {
     if (form['id'] === 'add-card-form') {
-        submitFormAddCard(values);
+        submitFormAddCard(values, form);
     } else if (form['id'] === 'edit-form') {
         submitFormEditProfile();
     }
@@ -137,24 +147,31 @@ function createCard(title, link) {
 
 function openPopup(popup) {
     popup.classList.add('popup_opened');
-    resetForm(popup);
 
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-            closePopup(popup);
-        }
-    });
-
-    document.addEventListener('click', (event) => {
-        if (event.target === popup) {
-            closePopup(popup);
-        }
-    });
+    document.addEventListener('keydown', closePopupByEscape);
+    document.addEventListener('click', closePopupByOverlay);
 }
 
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
-    removeErrorElements(popup);
+    // removeErrorElements(popup);
+
+    document.removeEventListener('keydown', closePopupByEscape);
+    document.removeEventListener('click', closePopupByOverlay);
+}
+
+function closePopupByEscape(event) {
+    if (event.key === 'Escape') {
+        const openedPopup = document.querySelector('.popup_opened');
+        closePopup(openedPopup);
+    }
+}
+
+function closePopupByOverlay(event) {
+    const openedPopup = document.querySelector('.popup_opened');
+    if (event.target === openedPopup) {
+        closePopup(openedPopup);
+    }
 }
 
 // Удаляет стили и элементы ошибок в попапе

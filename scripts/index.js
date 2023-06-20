@@ -83,6 +83,9 @@ buttonOpenAddPopup.addEventListener('click', () => {
     openPopup(popupAddCard);
     removeErrorElements(formAddCard);
     formAddCard.reset();
+    const buttonSubmit = formAddCard.querySelector('.button__submit');
+    // console.log(buttonSubmit)
+    buttonSubmit.setAttribute('disabled', true);
 });
 
 
@@ -160,15 +163,15 @@ function createCard(title, link) {
 function openPopup(popup) {
     popup.classList.add('popup_opened');
 
-    // document.addEventListener('keydown', closePopupByEscape);
-    // document.addEventListener('mousedown', closePopupByOverlay);
+    document.addEventListener('keydown', closePopupByEscape);
+    document.addEventListener('mousedown', closePopupByOverlay);
 }
 
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
 
-    // document.removeEventListener('keydown', closePopupByEscape);
-    // document.removeEventListener('mousedown', closePopupByOverlay);
+    document.removeEventListener('keydown', closePopupByEscape);
+    document.removeEventListener('mousedown', closePopupByOverlay);
 }
 
 function closePopupByEscape(event) {
@@ -187,7 +190,6 @@ function closePopupByOverlay(event) {
 
 // Удаляет стили и элементы ошибок в попапе
 function removeErrorElements(popup) {
-    console.log(`removeErrorElements`);
     const errors = popup.querySelectorAll('.popup__error');
     errors.forEach((error) => {
         error.parentNode.removeChild(error);
@@ -196,6 +198,5 @@ function removeErrorElements(popup) {
     const inputs = popup.querySelectorAll('.popup__input');
     inputs.forEach((input) => {
         input.classList.remove('popup__input_invalid');
-        input.removeAttribute('data-dirty');
     });
 }

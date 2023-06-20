@@ -23,8 +23,11 @@ function handleError() {
     console.error('Form Error');
 }
 
+
 function enableValidation(form, validators, classNames, handleSubmit, handleError) {
     // Параметр key – атрибут name поля ввода
+
+    const buttonSubmit = form.querySelector('.button__submit');
 
     // Находит валидатор по ключу, передает ему значение value и вызывает его
     const validate = (key, value) => {
@@ -76,6 +79,30 @@ function enableValidation(form, validators, classNames, handleSubmit, handleErro
         }
     }
 
+    const validateForm = event => {
+        const form = event.currentTarget;
+        const listError = Array.from(form.querySelectorAll('.popup__error'));
+        const listInput = Array.from(form.querySelectorAll('.popup__input'));
+
+        if (listError.length === 0 && listInput.length !== 0 && listInput[0].value.length > 1 && listInput[1].value.length > 1) {
+            console.log(`FORM VALID`)
+            return true;
+        }
+
+        console.log(`FORM INVALID`)
+        return false;
+    }
+
+    const setSubmitButtonState = isFormValid => {
+        // Если форма валидная, разблокирует кнопку сабмит
+        if (isFormValid) {
+            buttonSubmit.removeAttribute('disabled');
+        } else {
+            // Если форма невалидная, то заблокирует
+            buttonSubmit.setAttribute('disabled', true);
+        }
+    }
+
 
     form.addEventListener('input', event => {
         const input = event.target; // поле, в котором произошло событие
@@ -83,30 +110,19 @@ function enableValidation(form, validators, classNames, handleSubmit, handleErro
         const value = input.value;
 
         const error = validate(key, value); // null/ошибка
+        const isFormValid = false;
 
-        // Нет ошибки и data-dirty="false": очищает ошибку после того как с поля убираем фокус
+        // Нет ошибки: очищает ошибку и активирует кнопку
         if (!error) {
-            input.blur = () => {
-                input.dataset.dirty = 'true';
-            };
             clearError(key);
+            const isFormValid = validateForm(event);
+            setSubmitButtonState(isFormValid);
             return;
         }
 
-        // Есть ошибка и dataset.dirty === 'true': сразу показывает ошибку
-        if (input.dataset.dirty === 'true') {
-            setError(key, error);
-            return;
-        }
-
-        input.addEventListener('blur', () => {
-            input.dataset.dirty = 'true';
-            const error = validate(event.target.name, event.target.value);
-            if (error) {
-                setError(key, error);
-            }},
-            { once: true }
-        );
+        // Есть ошибка: добавляет ошибку и деактивирует кнопку
+        setError(key, error);
+        setSubmitButtonState(isFormValid);
     });
 
     form.addEventListener('submit', event => {
@@ -114,24 +130,7 @@ function enableValidation(form, validators, classNames, handleSubmit, handleErro
         const formData = new FormData(event.currentTarget);
         const values = Object.fromEntries(formData);
 
-        // По умолчанию форма валидна
-        let isFormValid = true;
-
-        // Проходит по всем полям formData
-        formData.forEach((value, key) => {
-            const input = getInputElement(key);
-            input.dataset.dirty = 'true';
-
-            const error = validate(key, value); // возвращает null/текст ошибки
-
-            if (!error) {
-                return; // форма валидна
-            }
-
-            // Ошибка есть, форма невалидна
-            setError(key, error);
-            isFormValid = false;
-        });
+        let isFormValid = validateForm(event);
 
         // Форма невалидна: отменяет отправку формы
         if (!isFormValid) {

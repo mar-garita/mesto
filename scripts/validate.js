@@ -27,7 +27,7 @@ function handleError() {
 function enableValidation(form, validators, classNames, handleSubmit, handleError) {
     // Параметр key – атрибут name поля ввода
 
-    const buttonSubmit = form.querySelector('.button__submit');
+    const buttonSubmit = form.querySelector('.popup__save-button');
 
     // Находит валидатор по ключу, передает ему значение value и вызывает его
     const validate = (key, value) => {

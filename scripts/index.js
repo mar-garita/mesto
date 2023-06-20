@@ -83,7 +83,7 @@ buttonOpenAddPopup.addEventListener('click', () => {
     openPopup(popupAddCard);
     removeErrorElements(formAddCard);
     formAddCard.reset();
-    const buttonSubmit = formAddCard.querySelector('.button__submit');
+    const buttonSubmit = formAddCard.querySelector('.popup__save-button');
     // console.log(buttonSubmit)
     buttonSubmit.setAttribute('disabled', true);
 });

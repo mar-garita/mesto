@@ -7,12 +7,14 @@ const buttonOpenAddPopup = document.querySelector('#add-card-button');
 // Попап редактирования профиля пользователя
 const popupEditProfile = document.querySelector('#edit-popup');
 const formEditPopup = document.querySelector('#edit-form');
-const inputName = document.querySelector('#name-input');
-const inputAbout = document.querySelector('#about-input');
+const inputName = document.querySelector('#input-name');
+const inputAbout = document.querySelector('#input-about');
+const buttonEditProfile = document.querySelector(`#button-edit-profile`);
 
 // Попап добавления карточки
 const popupAddCard = document.querySelector('#add-card-popup');
-const formAddCard = document.querySelector('#add-card-form')
+const formAddCard = document.querySelector('#add-card-form');
+const buttonAddCard = document.querySelector(`#button-add-card`);
 
 // Попап с картинкой
 const popupImage = document.querySelector('#view-image-popup');
@@ -29,7 +31,6 @@ const cardsListItems = document.querySelector('#cards-list');
 
 // Универсальные элементы попапа
 const popups = document.querySelectorAll('.popup');
-const forms = document.querySelectorAll('.popup__form');
 const closeButtons = document.querySelectorAll('.popup__close-button'); // список всех крестиков в попапах
 
 // Проходит по массиву initialCards и для каждого объекта создает
@@ -37,14 +38,6 @@ const closeButtons = document.querySelectorAll('.popup__close-button'); // сп�
 initialCards.forEach(function (item) {
     const newCard = createCard(item.name, item.link);
     cardsListItems.prepend(newCard);
-});
-
-
-// Обработчики универсальных элементов:
-
-// На все формы устанавливает валидатор
-forms.forEach((form) => {
-    enableValidation(form, validators, classNames, handleSubmit, handleError);
 });
 
 popups.forEach((popup) => {
@@ -73,6 +66,7 @@ closeButtons.forEach((button) => {
 buttonOpenEditPopup.addEventListener('click', function () {
     openPopup(popupEditProfile);
     removeErrorElements(formEditPopup);
+    buttonEditProfile.removeAttribute('disabled');
 
     inputName.value = titleProfile.textContent;
     inputAbout.value = subtitleProfile.textContent;
@@ -82,11 +76,12 @@ buttonOpenEditPopup.addEventListener('click', function () {
 buttonOpenAddPopup.addEventListener('click', () => {
     openPopup(popupAddCard);
     removeErrorElements(formAddCard);
+    buttonAddCard.setAttribute('disabled', true);
     formAddCard.reset();
-    const buttonSubmit = formAddCard.querySelector('.popup__save-button');
-    // console.log(buttonSubmit)
-    buttonSubmit.setAttribute('disabled', true);
 });
+
+formAddCard.addEventListener('submit', submitFormAddCard);
+formEditPopup.addEventListener('submit', submitFormEditProfile);
 
 
 // Обработчик формы редактирования профиля
@@ -99,7 +94,13 @@ function submitFormEditProfile() {
 }
 
 // Обработчик формы добавления карточки
-function submitFormAddCard(values, form) {
+function submitFormAddCard(event) {
+    // Получает данные инпутов
+    // target - место, где произошло событие submit (в данном случае событие произошло на форме)
+    const form = event.target; // получает форму
+    const formData = new FormData(form); // FormData получает текущие значения полей формы
+    const values = Object.fromEntries(formData); // fromEntries преобразует список пар ключ-значение в объект
+
     const title = values['title'];
     const link = values['link'];
 
@@ -107,19 +108,8 @@ function submitFormAddCard(values, form) {
     const newCard = createCard(title, link);
     cardsListItems.prepend(newCard);
 
-    form.reset();
     closePopup(popupAddCard);
 }
-
-// Отправляет форму, вызывается в валидаторе
-function submitForm(form, values) {
-    if (form['id'] === 'add-card-form') {
-        submitFormAddCard(values, form);
-    } else if (form['id'] === 'edit-form') {
-        submitFormEditProfile();
-    }
-}
-
 
 function createCard(title, link) {
     // Клонирует элемент для новой карточки
@@ -192,7 +182,7 @@ function closePopupByOverlay(event) {
 function removeErrorElements(popup) {
     const errors = popup.querySelectorAll('.popup__error');
     errors.forEach((error) => {
-        error.parentNode.removeChild(error);
+        error.textContent = '';
     });
 
     const inputs = popup.querySelectorAll('.popup__input');

@@ -1,205 +1,91 @@
-// Валидация как в вебинаре
-
-const validators = {
-    name: validateInputName,
-    about: validateInputAbout,
-    title: validateInputTitle,
-    link: validateInputLinkImage
-}
-
-const classNames = {
-    input: 'popup__input',
-    inputInvalid: 'popup__input_invalid',
-    error: 'popup__error'
-}
-
-function handleSubmit(values, evt) {
-    evt.preventDefault();
-    console.log(values);
-    console.log(evt);
-}
-
-function handleError() {
-    console.error('Form Error');
+const listSelector = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    inputErrorClass: 'popup__input_invalid',
 }
 
 
-function enableValidation(form, validators, classNames, handleSubmit, handleError) {
-    // Параметр key – атрибут name поля ввода
+// Показывает ошибку
+const showError = (formElement, inputElement, errorMessage, selectors) => {
+    // Находит элемент ошибки и добавляет ему стили и текст ошибки
+    const errorElement = formElement.querySelector(`.popup__${inputElement.id}-error`);
+    inputElement.classList.add(selectors.inputErrorClass);
+    errorElement.textContent = errorMessage;
+};
 
-    const buttonSubmit = form.querySelector('.popup__save-button');
+// Скрывает ошибку
+const hideError = (formElement, inputElement, selectors) => {
+    // Находит элемент ошибки и удаляет у него стили и текст ошибки
+    const errorElement = formElement.querySelector(`.popup__${inputElement.id}-error`);
+    console.log(errorElement)
+    inputElement.classList.remove(selectors.inputErrorClass);
+    errorElement.textContent = '';
+};
 
-    // Находит валидатор по ключу, передает ему значение value и вызывает его
-    const validate = (key, value) => {
-        const validator = validators[key];
-        return validator(value); // null/текст ошибки
+// Проверяет массив полей на валидность
+const hasInvalidInput = (inputList) => {
+    console.log(`hasInvalidInput`)
+    return inputList.some((inputElement) => {
+        // Если поле невалидно, колбэк вернёт true,
+        // обход массива прекратится и вся функция вернёт true
+        console.log(!inputElement.validity.valid);
+        return !inputElement.validity.valid;
+    })
+};
+
+// Проверяет валидность одного поля ввода и вызывает функцию добавления/удаления ошибки
+const checkInputValidity = (formElement, inputElement, selectors) => {
+    if (!inputElement.validity.valid) {
+        // Если в поле введены невалидные данные, показывает ошибку
+        const errorMessage = inputElement.validationMessage;
+        showError(formElement, inputElement, errorMessage, selectors);
+    } else {
+        // Валидные — скрывает ошибку
+        hideError(formElement, inputElement, selectors);
     }
+};
 
-    // Ищет в форме поле ввода по классу (classNames.input) и атрибуту name
-    const getInputElement = key => {
-        return form.querySelector(`.${classNames.input}[name=${key}]`);
+// Функция отвечает за блокировку кнопки «Отправить»
+const toggleButtonState = (inputList, buttonElement) => {
+    console.log(`toggleButtonState`)
+    // Если в форме есть невалидное поле – деактивирует кнопку
+    if (hasInvalidInput(inputList)) {
+        buttonElement.setAttribute('disabled', true);
+    } else {
+        // Активирует кнопку
+        buttonElement.removeAttribute('disabled');
     }
+};
 
-    // Ищет в форме элемент ошибки по классу (classNames.input) и атрибуту data-key = текущий name
-    const getErrorElement = key => {
-        return form.querySelector(`.${classNames.error}[data-key=${key}]`); // null/элемент ошибки
-    }
+// Устанавливает слушатель события input для полей ввода
+const setEventListeners = (formElement, selectors) => {
+    const inputList = Array.from(formElement.querySelectorAll(selectors.inputSelector));
+    const buttonElement = formElement.querySelector('.popup__save-button');
 
-    // Добавляет элемент ошибки
-    const setError = (key, errorMessage) => {
-        console.log(`setError for ${key}`)
-        // Добавляет полю 'невалидные' стили
-        const input = getInputElement(key);
-        input.classList.add(classNames.inputInvalid);
-
-        // Получает элемент ошибки
-        let errorElement = getErrorElement(key);
-
-        // Если элемента ошибки нет, то создает его и добавляет в верстку
-        if (!errorElement) {
-            errorElement = document.createElement('p');
-            input.after(errorElement);
-        }
-
-        errorElement.textContent = errorMessage;
-        errorElement.classList.add(classNames.error);
-        // Добавляет ключ (с таким же значением, как name у поля ввода, в котором произошла ошибка),
-        // чтобы getErrorElement смог найти элемент ошибки по ключу
-        errorElement.dataset.key = key;
-    }
-
-    // Удаляет ошибку
-    const clearError = key => {
-        const input = getInputElement(key);
-        input.classList.remove(classNames.inputInvalid);
-
-        const errorElement = getErrorElement(key);
-        if (errorElement) {
-            errorElement.remove();
-        }
-    }
-
-    const validateForm = event => {
-        const form = event.currentTarget;
-        const listError = Array.from(form.querySelectorAll('.popup__error'));
-        const listInput = Array.from(form.querySelectorAll('.popup__input'));
-
-        if (listError.length === 0 && listInput.length !== 0 && listInput[0].value.length > 1 && listInput[1].value.length > 1) {
-            console.log(`FORM VALID`)
-            return true;
-        }
-
-        console.log(`FORM INVALID`)
-        return false;
-    }
-
-    const setSubmitButtonState = isFormValid => {
-        // Если форма валидная, разблокирует кнопку сабмит
-        if (isFormValid) {
-            buttonSubmit.removeAttribute('disabled');
-        } else {
-            // Если форма невалидная, то заблокирует
-            buttonSubmit.setAttribute('disabled', true);
-        }
-    }
-
-
-    form.addEventListener('input', event => {
-        const input = event.target; // поле, в котором произошло событие
-        const key = input.name;
-        const value = input.value;
-
-        const error = validate(key, value); // null/ошибка
-        const isFormValid = false;
-
-        // Нет ошибки: очищает ошибку и активирует кнопку
-        if (!error) {
-            clearError(key);
-            const isFormValid = validateForm(event);
-            setSubmitButtonState(isFormValid);
-            return;
-        }
-
-        // Есть ошибка: добавляет ошибку и деактивирует кнопку
-        setError(key, error);
-        setSubmitButtonState(isFormValid);
+    inputList.forEach((inputElement) => {
+        inputElement.addEventListener('input', () => {
+            // Проверяет валидность поля
+            checkInputValidity(formElement, inputElement, selectors);
+            // Проверяет состояние кнопки при каждом изменении символа в поле
+            toggleButtonState(inputList, buttonElement);
+        });
     });
+};
 
-    form.addEventListener('submit', event => {
-        // Получает все данные из фомы
-        const formData = new FormData(event.currentTarget);
-        const values = Object.fromEntries(formData);
+// Включает валидацию
+const enableValidation = (selectors) => {
+    const formList = Array.from(document.querySelectorAll(selectors.formSelector));
 
-        let isFormValid = validateForm(event);
+    formList.forEach((formElement) => {
+        formElement.addEventListener('submit', (evt) => {
+            evt.preventDefault();
+        });
 
-        // Форма невалидна: отменяет отправку формы
-        if (!isFormValid) {
-            event.preventDefault();
-            handleError();
-            return;
-        }
-
-        // Форма валидна: отправляет в консоль данные, которые ввел пользователь
-        handleSubmit(values, event);
-        // Отправляет данные формы
-        submitForm(form, values);
+        // Для каждой формы вызывает функцию, которая устанавливает слушатель события input для полей ввода
+        formList.forEach((formElement) => {
+            setEventListeners(formElement, selectors);
+        });
     });
 }
 
-// Валидаторы полей ввода
-
-function validateInputName(value) {
-    if (!value) {
-        return 'Введите имя';
-    }
-
-    if (value.length < 2 || value.length > 40) {
-        return `Имя должно быть от 2 до 40 символов`;
-    }
-
-    return null;
-}
-
-function validateInputAbout(value) {
-    if (!value) {
-        return 'Введите информацию о себе';
-    }
-
-    if (value.length < 2 || value.length > 200) {
-        return `Информация о себе должна быть от 2 до 200 символов`;
-    }
-
-    return null;
-}
-
-function validateInputTitle(value) {
-    if (!value) {
-        return 'Введите название';
-    }
-
-    if (value.length < 2 || value.length > 30) {
-        return `Название должно быть от 2 до 30 символов`;
-    }
-
-    return null;
-}
-
-function validateInputLinkImage(value) {
-    const input = document.createElement('input');
-
-    // Добавляет элементу <input> атрибуты
-    input.type = 'url';
-    input.required = true;
-    input.value = value;
-
-    const isValid = input.checkValidity();
-
-    if (!value) {
-        return 'Введите ссылку';
-    }
-    if (!isValid) {
-        return 'Некорректная ссылка';
-    }
-
-    return null;
-}
+enableValidation(listSelector);

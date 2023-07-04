@@ -1,24 +1,20 @@
-const listSelector = {
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    inputErrorClass: 'popup__input_invalid',
-}
+// const listSelector =
 
 
 // Показывает ошибку
-const showError = (formElement, inputElement, errorMessage, selectors) => {
+const showError = (formElement, inputElement, errorMessage, {inputErrorClass}) => {
     // Находит элемент ошибки и добавляет ему стили и текст ошибки
     const errorElement = formElement.querySelector(`.popup__${inputElement.id}-error`);
-    inputElement.classList.add(selectors.inputErrorClass);
+    inputElement.classList.add(inputErrorClass);
     errorElement.textContent = errorMessage;
 };
 
 // Скрывает ошибку
-const hideError = (formElement, inputElement, selectors) => {
+const hideError = (formElement, inputElement, {inputErrorClass}) => {
     // Находит элемент ошибки и удаляет у него стили и текст ошибки
     const errorElement = formElement.querySelector(`.popup__${inputElement.id}-error`);
     console.log(errorElement)
-    inputElement.classList.remove(selectors.inputErrorClass);
+    inputElement.classList.remove(inputErrorClass);
     errorElement.textContent = '';
 };
 
@@ -34,14 +30,14 @@ const hasInvalidInput = (inputList) => {
 };
 
 // Проверяет валидность одного поля ввода и вызывает функцию добавления/удаления ошибки
-const checkInputValidity = (formElement, inputElement, selectors) => {
+const checkInputValidity = (formElement, inputElement, {...rest}) => {
     if (!inputElement.validity.valid) {
         // Если в поле введены невалидные данные, показывает ошибку
         const errorMessage = inputElement.validationMessage;
-        showError(formElement, inputElement, errorMessage, selectors);
+        showError(formElement, inputElement, errorMessage, rest);
     } else {
         // Валидные — скрывает ошибку
-        hideError(formElement, inputElement, selectors);
+        hideError(formElement, inputElement, rest);
     }
 };
 
@@ -58,14 +54,14 @@ const toggleButtonState = (inputList, buttonElement) => {
 };
 
 // Устанавливает слушатель события input для полей ввода
-const setEventListeners = (formElement, selectors) => {
-    const inputList = Array.from(formElement.querySelectorAll(selectors.inputSelector));
+const setEventListeners = (formElement, {inputSelector, ...rest}) => {
+    const inputList = Array.from(formElement.querySelectorAll(inputSelector));
     const buttonElement = formElement.querySelector('.popup__save-button');
 
     inputList.forEach((inputElement) => {
         inputElement.addEventListener('input', () => {
             // Проверяет валидность поля
-            checkInputValidity(formElement, inputElement, selectors);
+            checkInputValidity(formElement, inputElement, rest);
             // Проверяет состояние кнопки при каждом изменении символа в поле
             toggleButtonState(inputList, buttonElement);
         });
@@ -73,8 +69,8 @@ const setEventListeners = (formElement, selectors) => {
 };
 
 // Включает валидацию
-const enableValidation = (selectors) => {
-    const formList = Array.from(document.querySelectorAll(selectors.formSelector));
+const enableValidation = ({formSelector, ...rest}) => {
+    const formList = Array.from(document.querySelectorAll(formSelector));
 
     formList.forEach((formElement) => {
         formElement.addEventListener('submit', (evt) => {
@@ -83,9 +79,13 @@ const enableValidation = (selectors) => {
 
         // Для каждой формы вызывает функцию, которая устанавливает слушатель события input для полей ввода
         formList.forEach((formElement) => {
-            setEventListeners(formElement, selectors);
+            setEventListeners(formElement, rest);
         });
     });
 }
 
-enableValidation(listSelector);
+enableValidation({
+        formSelector: '.popup__form',
+        inputSelector: '.popup__input',
+        inputErrorClass: 'popup__input_invalid',
+    });

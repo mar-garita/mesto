@@ -30,8 +30,8 @@ const itemCardsList = templateCardsContent.querySelector('#cards-item');
 const cardsListItems = document.querySelector('#cards-list');
 
 // Универсальные элементы попапа
-const popups = document.querySelectorAll('.popup');
 const closeButtons = document.querySelectorAll('.popup__close-button'); // список всех крестиков в попапах
+
 
 // Проходит по массиву initialCards и для каждого объекта создает
 // на странице карточку, добавляя ее в начало списка карточек
@@ -40,16 +40,6 @@ initialCards.forEach(function (item) {
     cardsListItems.prepend(newCard);
 });
 
-popups.forEach((popup) => {
-    popup.addEventListener('mousedown', (evt) => {
-        if (evt.target.classList.contains('popup_opened')) {
-            closePopup(popup)
-        }
-        if (evt.target.classList.contains('popup__close')) {
-            closePopup(popup)
-        }
-    })
-})
 
 // На все кнопки-крестики в попапах устанавливает обработчик закрытия
 closeButtons.forEach((button) => {
@@ -58,9 +48,6 @@ closeButtons.forEach((button) => {
     const popup = button.closest('.popup');
     button.addEventListener('click', () => closePopup(popup));
 });
-
-
-// Обработчики уникальных элементов:
 
 // Открывает попап редактирования профиля
 buttonOpenEditPopup.addEventListener('click', function () {
@@ -110,6 +97,7 @@ function submitFormAddCard(event) {
 
     closePopup(popupAddCard);
 }
+
 
 function createCard(title, link) {
     // Клонирует элемент для новой карточки

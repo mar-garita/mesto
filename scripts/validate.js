@@ -1,6 +1,3 @@
-// const listSelector =
-
-
 // Показывает ошибку
 const showError = (formElement, inputElement, errorMessage, {inputErrorClass}) => {
     // Находит элемент ошибки и добавляет ему стили и текст ошибки

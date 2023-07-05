@@ -1,3 +1,5 @@
+import { Card } from "./Card.js";
+
 // Профиль пользователя
 const titleProfile = document.querySelector('.profile__title');
 const subtitleProfile = document.querySelector('.profile__subtitle');
@@ -17,14 +19,15 @@ const formAddCard = document.querySelector('#add-card-form');
 const buttonAddCard = document.querySelector(`#button-add-card`);
 
 // Попап с картинкой
-const popupImage = document.querySelector('#view-image-popup');
-const linkPopupImage = popupImage.querySelector('.popup-img__image');
-const captionPopupImage = popupImage.querySelector('.popup-img__caption');
+// const popupImage = document.querySelector('#view-image-popup');
+// const linkPopupImage = popupImage.querySelector('.popup-img__image');
+// const captionPopupImage = popupImage.querySelector('.popup-img__caption');
 
 // Шаблон карточки
-const templateCards = document.querySelector('#cards-list-template');
-const templateCardsContent = templateCards.content;
-const itemCardsList = templateCardsContent.querySelector('#cards-item');
+// const templateCards = document.querySelector('#cards-list-template');
+// const templateCardsContent = templateCards.content;
+// const itemCardsList = templateCardsContent.querySelector('#cards-item');
+const templateSelector = '#cards-list-template';
 
 // Контейнер для добавления карточек (ul)
 const cardsListItems = document.querySelector('#cards-list');
@@ -36,8 +39,9 @@ const closeButtons = document.querySelectorAll('.popup__close-button'); // сп�
 // Проходит по массиву initialCards и для каждого объекта создает
 // на странице карточку, добавляя ее в начало списка карточек
 initialCards.forEach(function (item) {
-    const newCard = createCard(item.name, item.link);
-    cardsListItems.prepend(newCard);
+    const newCard = new Card (item.link, item.title, templateSelector);
+    const cardElement = newCard.createCard();
+    cardsListItems.prepend(cardElement);
 });
 
 
@@ -92,53 +96,55 @@ function submitFormAddCard(event) {
     const link = values['link'];
 
     // Создает карточку
-    const newCard = createCard(title, link);
-    cardsListItems.prepend(newCard);
+    // const newCard = createCard(title, link);
+    const newCard = new Card (link, title, templateSelector);
+    const cardElement = newCard.createCard();
+    cardsListItems.prepend(cardElement);
 
     closePopup(popupAddCard);
 }
 
 
-function createCard(title, link) {
-    // Клонирует элемент для новой карточки
-    // (true - глубокое клонирование со всеми элементами)
-    const newCard = itemCardsList.cloneNode(true);
+// function createCard(title, link) {
+//     // Клонирует элемент для новой карточки
+//     // (true - глубокое клонирование со всеми элементами)
+//     const newCard = itemCardsList.cloneNode(true);
+//
+//     // Задает значения элементам новой карточки
+//     const titleImage = newCard.querySelector('#cards-title');
+//     titleImage.textContent = title;
+//
+//     const linkImage = newCard.querySelector('#cards-image');
+//     linkImage.src = link;
+//     linkImage.alt = title;
+//
+//     // Кнопка удаления
+//     const buttonDeleteCard = newCard.querySelector('.cards__btn-delete');
+//     buttonDeleteCard.addEventListener('click', function () {
+//         cardsListItems.removeChild(newCard);
+//     });
+//
+//     // Кнопка like
+//     const buttonLikeCard = newCard.querySelector('.cards__btn-like');
+//     buttonLikeCard.addEventListener('click', function (evt) {
+//         evt.target.classList.toggle('cards__btn-like_active');
+//     });
+//
+//     // Открывает попап с картинкой при нажатии на картинку
+//     const imageCard = newCard.querySelector('.cards__image');
+//     imageCard.addEventListener('click', function () {
+//         openPopup(popupImage);
+//
+//         linkPopupImage.src = link;
+//         linkPopupImage.alt = title;
+//
+//         captionPopupImage.textContent = title;
+//     });
+//
+//     return newCard;
+// }
 
-    // Задает значения элементам новой карточки
-    const titleImage = newCard.querySelector('#cards-title');
-    titleImage.textContent = title;
-
-    const linkImage = newCard.querySelector('#cards-image');
-    linkImage.src = link;
-    linkImage.alt = title;
-
-    // Кнопка удаления
-    const buttonDeleteCard = newCard.querySelector('.cards__btn-delete');
-    buttonDeleteCard.addEventListener('click', function () {
-        cardsListItems.removeChild(newCard);
-    });
-
-    // Кнопка like
-    const buttonLikeCard = newCard.querySelector('.cards__btn-like');
-    buttonLikeCard.addEventListener('click', function (evt) {
-        evt.target.classList.toggle('cards__btn-like_active');
-    });
-
-    // Открывает попап с картинкой при нажатии на картинку
-    const imageCard = newCard.querySelector('.cards__image');
-    imageCard.addEventListener('click', function () {
-        openPopup(popupImage);
-
-        linkPopupImage.src = link;
-        linkPopupImage.alt = title;
-
-        captionPopupImage.textContent = title;
-    });
-
-    return newCard;
-}
-
-function openPopup(popup) {
+export function openPopup(popup) {
     popup.classList.add('popup_opened');
 
     document.addEventListener('keydown', closePopupByEscape);

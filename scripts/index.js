@@ -1,4 +1,5 @@
 import { Card } from "./Card.js";
+import { FormValidator } from "./FormValidator.js";
 
 // Профиль пользователя
 const titleProfile = document.querySelector('.profile__title');
@@ -18,23 +19,30 @@ const popupAddCard = document.querySelector('#add-card-popup');
 const formAddCard = document.querySelector('#add-card-form');
 const buttonAddCard = document.querySelector(`#button-add-card`);
 
-// Попап с картинкой
-// const popupImage = document.querySelector('#view-image-popup');
-// const linkPopupImage = popupImage.querySelector('.popup-img__image');
-// const captionPopupImage = popupImage.querySelector('.popup-img__caption');
-
-// Шаблон карточки
-// const templateCards = document.querySelector('#cards-list-template');
-// const templateCardsContent = templateCards.content;
-// const itemCardsList = templateCardsContent.querySelector('#cards-item');
-const templateSelector = '#cards-list-template';
+// Список всех крестиков в попапах
+const closeButtons = document.querySelectorAll('.popup__close-button');
 
 // Контейнер для добавления карточек (ul)
 const cardsListItems = document.querySelector('#cards-list');
 
-// Универсальные элементы попапа
-const closeButtons = document.querySelectorAll('.popup__close-button'); // список всех крестиков в попапах
+// Шаблон карточки
+const templateSelector = '#cards-list-template';
 
+// Список всех форм на странице
+const formList = document.querySelectorAll('.popup__form');
+
+// Селекторы для валидатора
+const formSelectors = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    inputErrorClass: 'popup__input_invalid',
+}
+
+// Для каждой формы включает валидатор
+formList.forEach(function (form) {
+    const newForm = new FormValidator(formSelectors, form);
+    newForm.enableValidation();
+});
 
 // Проходит по массиву initialCards и для каждого объекта создает
 // на странице карточку, добавляя ее в начало списка карточек
@@ -95,8 +103,7 @@ function submitFormAddCard(event) {
     const title = values['title'];
     const link = values['link'];
 
-    // Создает карточку
-    // const newCard = createCard(title, link);
+    // Создает экземпляр карточки
     const newCard = new Card (link, title, templateSelector);
     const cardElement = newCard.createCard();
     cardsListItems.prepend(cardElement);
@@ -104,45 +111,6 @@ function submitFormAddCard(event) {
     closePopup(popupAddCard);
 }
 
-
-// function createCard(title, link) {
-//     // Клонирует элемент для новой карточки
-//     // (true - глубокое клонирование со всеми элементами)
-//     const newCard = itemCardsList.cloneNode(true);
-//
-//     // Задает значения элементам новой карточки
-//     const titleImage = newCard.querySelector('#cards-title');
-//     titleImage.textContent = title;
-//
-//     const linkImage = newCard.querySelector('#cards-image');
-//     linkImage.src = link;
-//     linkImage.alt = title;
-//
-//     // Кнопка удаления
-//     const buttonDeleteCard = newCard.querySelector('.cards__btn-delete');
-//     buttonDeleteCard.addEventListener('click', function () {
-//         cardsListItems.removeChild(newCard);
-//     });
-//
-//     // Кнопка like
-//     const buttonLikeCard = newCard.querySelector('.cards__btn-like');
-//     buttonLikeCard.addEventListener('click', function (evt) {
-//         evt.target.classList.toggle('cards__btn-like_active');
-//     });
-//
-//     // Открывает попап с картинкой при нажатии на картинку
-//     const imageCard = newCard.querySelector('.cards__image');
-//     imageCard.addEventListener('click', function () {
-//         openPopup(popupImage);
-//
-//         linkPopupImage.src = link;
-//         linkPopupImage.alt = title;
-//
-//         captionPopupImage.textContent = title;
-//     });
-//
-//     return newCard;
-// }
 
 export function openPopup(popup) {
     popup.classList.add('popup_opened');

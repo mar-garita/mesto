@@ -26,6 +26,7 @@
     + Media Queries
 * JavaScript:
     + DOM
+    + OOP
 * GIT
 * Методология БЭМ
 * Файловая структура Nested БЭМ

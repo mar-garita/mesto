@@ -1,16 +1,6 @@
-// Шаблон карточки
-// const templateCards = document.querySelector('#cards-list-template');
-// const templateCardsContent = templateCards.content;
-// const itemCardsList = templateCardsContent.querySelector('#cards-item');
-
 import { openPopup } from "./index.js";
+import { cardsListItems, popupImage, linkPopupImage, captionPopupImage } from "./index.js";
 
-const cardsListItems = document.querySelector('#cards-list');
-
-// Попап с картинкой
-const popupImage = document.querySelector('#view-image-popup');
-const linkPopupImage = popupImage.querySelector('.popup-img__image');
-const captionPopupImage = popupImage.querySelector('.popup-img__caption');
 
 export class Card {
     constructor(cardLink, cardTitle, templateSelector) {
@@ -30,21 +20,21 @@ export class Card {
     }
 
     // Обработчики карточки
-    _setEventListeners() {
+    _setEventListeners(cardElement) {
         // Кнопка удаления
-        const buttonDeleteCard = this.cardElement.querySelector('.cards__btn-delete');
+        const buttonDeleteCard = cardElement.querySelector('.cards__btn-delete');
         buttonDeleteCard.addEventListener('click', function () {
-            cardsListItems.removeChild(buttonDeleteCard.parentElement);
+            cardsListItems.removeChild(cardElement);
         });
 
         // Кнопка like
-        const buttonLikeCard = this.cardElement.querySelector('.cards__btn-like');
+        const buttonLikeCard = cardElement.querySelector('.cards__btn-like');
         buttonLikeCard.addEventListener('click', function (evt) {
             evt.target.classList.toggle('cards__btn-like_active');
         });
 
         // Открывает попап с картинкой при нажатии на картинку
-        const imageCard = this.cardElement.querySelector('.cards__image');
+        const imageCard = cardElement.querySelector('.cards__image');
         imageCard.addEventListener('click', function () {
             openPopup(popupImage);
 
@@ -56,52 +46,18 @@ export class Card {
     }
 
     createCard() {
-        // Клонирует элемент для новой карточки
-        // (true - глубокое клонирование со всеми элементами)
-        // const newCard = itemCardsList.cloneNode(true);
+        // Получает щаблон для новой карточки
         this.cardElement = this._getTemplate();
 
         // Задает значения элементам новой карточки
-        // const titleImage = newCard.querySelector('#cards-title');
-        // titleImage.textContent = title;
         const titleImage = this.cardElement.querySelector('#cards-title');
         titleImage.textContent = this.cardTitle;
 
-        // const linkImage = newCard.querySelector('#cards-image');
-        // linkImage.src = link;
-        // linkImage.alt = title;
         const linkImage = this.cardElement.querySelector('#cards-image');
         linkImage.src = this.cardLink;
         linkImage.alt = this.cardTitle;
 
-        // // Кнопка удаления
-        // const buttonDeleteCard = this.cardElement.querySelector('.cards__btn-delete');
-        // buttonDeleteCard.addEventListener('click', function () {
-        //     console.log(this.cardElement)
-        //     cardsListItems.removeChild(this.cardElement);
-        // });
-        //
-        // // Кнопка like
-        // const buttonLikeCard = this.cardElement.querySelector('.cards__btn-like');
-        // buttonLikeCard.addEventListener('click', function (evt) {
-        //     evt.target.classList.toggle('cards__btn-like_active');
-        // });
-        //
-        // // Открывает попап с картинкой при нажатии на картинку
-        // const imageCard = this.cardElement.querySelector('.cards__image');
-        // imageCard.addEventListener('click', function () {
-        //     openPopup(popupImage);
-        //
-        //     console.log(`this.cardLink`)
-        //     console.log(this.cardElement)
-        //     popupImage.querySelector('.popup-img__image').src = this.cardLink;
-        //     linkPopupImage.alt = this.cardTitle;
-        //
-        //     captionPopupImage.textContent = this.cardTitle;
-        // });
-
-        this._setEventListeners();
-
+        this._setEventListeners(this.cardElement);
         return this.cardElement;
     }
 }

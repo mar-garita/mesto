@@ -12,37 +12,41 @@ const popupEditProfile = document.querySelector('#edit-popup');
 const formEditPopup = document.querySelector('#edit-form');
 const inputName = document.querySelector('#input-name');
 const inputAbout = document.querySelector('#input-about');
-const buttonEditProfile = document.querySelector(`#button-edit-profile`);
 
 // Попап добавления карточки
 const popupAddCard = document.querySelector('#add-card-popup');
 const formAddCard = document.querySelector('#add-card-form');
-const buttonAddCard = document.querySelector(`#button-add-card`);
 
 // Список всех крестиков в попапах
 const closeButtons = document.querySelectorAll('.popup__close-button');
 
 // Контейнер для добавления карточек (ul)
-const cardsListItems = document.querySelector('#cards-list');
+export const cardsListItems = document.querySelector('#cards-list');
 
 // Шаблон карточки
 const templateSelector = '#cards-list-template';
-
-// Список всех форм на странице
-const formList = document.querySelectorAll('.popup__form');
 
 // Селекторы для валидатора
 const formSelectors = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
     inputErrorClass: 'popup__input_invalid',
+    saveButton: '.popup__save-button'
 }
 
-// Для каждой формы включает валидатор
-formList.forEach(function (form) {
-    const newForm = new FormValidator(formSelectors, form);
-    newForm.enableValidation();
-});
+// Попап с картинкой
+export const popupImage = document.querySelector('#view-image-popup'); // Попап с картинкой
+export const linkPopupImage = popupImage.querySelector('.popup-img__image');
+export const captionPopupImage = popupImage.querySelector('.popup-img__caption');
+
+
+// Валидаторы форм попапов
+const popupEditProfileValidator = new FormValidator (formSelectors, popupEditProfile);
+popupEditProfileValidator.enableValidation();
+
+const popupAddCardValidator = new FormValidator (formSelectors, popupAddCard);
+popupAddCardValidator.enableValidation();
+
 
 // Проходит по массиву initialCards и для каждого объекта создает
 // на странице карточку, добавляя ее в начало списка карточек
@@ -64,19 +68,21 @@ closeButtons.forEach((button) => {
 // Открывает попап редактирования профиля
 buttonOpenEditPopup.addEventListener('click', function () {
     openPopup(popupEditProfile);
-    removeErrorElements(formEditPopup);
-    buttonEditProfile.removeAttribute('disabled');
 
     inputName.value = titleProfile.textContent;
     inputAbout.value = subtitleProfile.textContent;
+
+    // Валидатор управляет кнопкой и очищает ошибки
+    popupEditProfileValidator.resetValidation();
 });
 
 // Открывает попап добавления карточки
 buttonOpenAddPopup.addEventListener('click', () => {
     openPopup(popupAddCard);
-    removeErrorElements(formAddCard);
-    buttonAddCard.setAttribute('disabled', true);
+
     formAddCard.reset();
+    // Валидатор управляет кнопкой и очищает ошибки
+    popupAddCardValidator.resetValidation();
 });
 
 formAddCard.addEventListener('submit', submitFormAddCard);
@@ -138,17 +144,4 @@ function closePopupByOverlay(event) {
     if (event.target === openedPopup) {
         closePopup(openedPopup);
     }
-}
-
-// Удаляет стили и элементы ошибок в попапе
-function removeErrorElements(popup) {
-    const errors = popup.querySelectorAll('.popup__error');
-    errors.forEach((error) => {
-        error.textContent = '';
-    });
-
-    const inputs = popup.querySelectorAll('.popup__input');
-    inputs.forEach((input) => {
-        input.classList.remove('popup__input_invalid');
-    });
 }

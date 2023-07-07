@@ -1,5 +1,5 @@
 import { openPopup } from "./index.js";
-import { cardsListItems, popupImage, linkPopupImage, captionPopupImage } from "./index.js";
+import { popupImage, linkPopupImage, captionPopupImage } from "./index.js";
 
 
 export class Card {
@@ -19,22 +19,22 @@ export class Card {
         return cardElement;
     }
 
-    // Обработчики карточки
-    _setEventListeners(cardElement) {
+    // Слушатели
+    _setEventListeners() {
         // Кнопка удаления
-        const buttonDeleteCard = cardElement.querySelector('.cards__btn-delete');
-        buttonDeleteCard.addEventListener('click', function () {
-            cardsListItems.removeChild(cardElement);
+        const buttonDeleteCard = this.cardElement.querySelector('.cards__btn-delete');
+        buttonDeleteCard.addEventListener('click', () => {
+            this.cardElement.remove();
         });
 
         // Кнопка like
-        const buttonLikeCard = cardElement.querySelector('.cards__btn-like');
+        const buttonLikeCard = this.cardElement.querySelector('.cards__btn-like');
         buttonLikeCard.addEventListener('click', function (evt) {
             evt.target.classList.toggle('cards__btn-like_active');
         });
 
         // Открывает попап с картинкой при нажатии на картинку
-        const imageCard = cardElement.querySelector('.cards__image');
+        const imageCard = this.cardElement.querySelector('.cards__image');
         imageCard.addEventListener('click', function () {
             openPopup(popupImage);
 
@@ -46,7 +46,7 @@ export class Card {
     }
 
     createCard() {
-        // Получает щаблон для новой карточки
+        // Получает шаблон для новой карточки
         this.cardElement = this._getTemplate();
 
         // Задает значения элементам новой карточки
@@ -57,7 +57,7 @@ export class Card {
         linkImage.src = this.cardLink;
         linkImage.alt = this.cardTitle;
 
-        this._setEventListeners(this.cardElement);
+        this._setEventListeners();
         return this.cardElement;
     }
 }

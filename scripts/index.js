@@ -21,7 +21,7 @@ const formAddCard = document.querySelector('#add-card-form');
 const closeButtons = document.querySelectorAll('.popup__close-button');
 
 // Контейнер для добавления карточек (ul)
-export const cardsListItems = document.querySelector('#cards-list');
+const cardsListItems = document.querySelector('#cards-list');
 
 // Шаблон карточки
 const templateSelector = '#cards-list-template';
